@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane minHeight="600.0" minWidth="800.0" styleClass="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="application.view.MainWindowController">
+   <children>
+      <SplitPane dividerPositions="0.08528428093645485" layoutX="-91.0" layoutY="-132.0" orientation="VERTICAL" prefHeight="68.0" prefWidth="69.0" styleClass="root" stylesheets="@Style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Button fx:id="logoutButton" layoutX="674.0" layoutY="12.0" mnemonicParsing="false" onAction="#logoutButtonAction" prefHeight="25.0" prefWidth="109.0" text="Wyloguj" />
+                  <Label layoutX="29.0" layoutY="12.0" text="System oceny studenta" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="522.0" prefWidth="798.0" styleClass="root" stylesheets="@Style.css">
+               <children>
+                  <Label layoutX="53.0" layoutY="98.0" text="Przedmiot:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="53.0" layoutY="59.0" text="Tytuł:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="titleTextBox" layoutX="230.0" layoutY="61.0" prefHeight="25.0" prefWidth="487.0" />
+                  <ComboBox fx:id="SubjectComboBox" layoutX="230.0" layoutY="100.0" prefHeight="25.0" prefWidth="487.0" />
+                  <TextField fx:id="maxPunctationTextBox" layoutX="231.0" layoutY="138.0" prefHeight="25.0" prefWidth="487.0" />
+                  <Label layoutX="53.0" layoutY="136.0" text="Punkty do zdobycia:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="53.0" layoutY="249.0" text="Egzamin:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="56.0" layoutY="288.0" text="Student:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="53.0" layoutY="325.0" text="Uzyskane punkty:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="examComboBox" layoutX="231.0" layoutY="251.0" prefHeight="25.0" prefWidth="487.0" />
+                  <ComboBox fx:id="studentComboBox" layoutX="232.0" layoutY="290.0" prefHeight="25.0" prefWidth="487.0" />
+                  <TextField fx:id="resultPunctationTextBox" layoutX="231.0" layoutY="327.0" prefHeight="25.0" prefWidth="487.0" />
+                  <Button fx:id="addExamButton" layoutX="608.0" layoutY="188.0" mnemonicParsing="false" onAction="#addExamButtonAction" prefHeight="25.0" prefWidth="109.0" text="Dodaj egzamin" />
+                  <Button fx:id="saveButton" layoutX="610.0" layoutY="378.0" mnemonicParsing="false" onAction="#saveButtonAction" prefHeight="25.0" prefWidth="109.0" text="Zapisz i przelicz" />
+                  <Label layoutX="53.0" layoutY="467.0" text="Ocena studenta:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="degreeTextBox" layoutX="232.0" layoutY="467.0" prefHeight="25.0" prefWidth="487.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

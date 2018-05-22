@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane styleClass="root" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.LoginController">
+   <children>
+      <SplitPane dividerPositions="0.20603015075376885" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@../view/Style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="64.0" prefWidth="598.0" SplitPane.resizableWithParent="false">
+               <children>
+       
+                  <Label layoutX="23.0" layoutY="26.0" text="Witaj w systemie oceny studenta!" textFill="WHITE" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="35.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <PasswordField fx:id="textHaslo" onAction="#loginButtonAction" promptText="Hasło" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="150.0" />
+                  <TextField fx:id="textLogin" layoutX="150.0" layoutY="97.0" onAction="#loginButtonAction" prefHeight="25.0" prefWidth="380.0" promptText="nazwisko@gmail.com" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="100.0" />
+                  <Label fx:id="labelHaslo" layoutX="63.0" layoutY="154.0" text="Hasło:" textFill="WHITE" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="150.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="labelLogin" layoutX="60.0" layoutY="104.0" text="Login:" textFill="WHITE" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="100.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="logLab" blendMode="HARD_LIGHT" layoutX="33.0" layoutY="37.0" prefHeight="20.0" prefWidth="334.0" text="Logowanie" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="loginButton" blendMode="LIGHTEN" layoutX="492.0" layoutY="230.0" mnemonicParsing="false" onAction="#loginButtonAction" text="Zaloguj" AnchorPane.bottomAnchor="70.0" AnchorPane.rightAnchor="70.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
