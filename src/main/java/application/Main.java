@@ -23,23 +23,21 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception{
     	this.stage = stage;
+//    	
+//		URL url = Main.class.getResource("view/LoginScene.fxml");
+//		FXMLLoader loader = new FXMLLoader(url);
+//    	Scene scene = new Scene(loader.load());
+//    	stage.setScene(scene);
     	
-		URL url = Main.class.getResource("view/LoginScene.fxml");
-		FXMLLoader loader = new FXMLLoader(url);
-    	Scene scene = new Scene(loader.load());
-    	stage.setScene(scene);
-    	
-//    	loadStage();
+    	loadStage();
 		stage.show();
     }
     
     public void loadStage() throws IOException {
-    	FXMLLoader loader = new FXMLLoader();
-    	URL location = Main.class.getClassLoader().getResource("view/LoginScene.fxml");
-    	loader.setLocation(location);
-    	Parent root = loader.load();
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
+    	URL url = Main.class.getResource("view/LoginScene.fxml");
+		FXMLLoader loader = new FXMLLoader(url);
+    	Scene scene = new Scene(loader.load());
+    	stage.setScene(scene);
 		stage.setTitle("Logowanie");
 		((LoginController) loader.getController()).setMainApp(this);
     }

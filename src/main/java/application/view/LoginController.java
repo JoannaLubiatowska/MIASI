@@ -46,9 +46,11 @@ public class LoginController implements Initializable {
 			logLab.setText("Witaj " + textLogin.getText() + "!");
 			AdminController.showAdmin(mainApp);
 		}
+		
 		else {
 			logLab.setText("Has³o nieprawid³owe!");
 		}*/
+		MainWindowController.showMainWindow(mainApp);
 	}
 	
 	@Override
