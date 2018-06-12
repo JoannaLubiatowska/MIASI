@@ -1,13 +1,15 @@
 package application.view;
 
 import java.net.URL;
-import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 import application.Main;
+import application.exception.WrongEmailFormatException;
+import application.service.LoginService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -27,40 +29,31 @@ public class LoginController implements Initializable {
 	private Label labelLogin;
 	@FXML
 	private Button loginButton;
-	
-	static ResultSet result;
+
 	@SuppressWarnings("unused")
 	private Main mainApp;
-	@FXML
-	private void loginButtonAction(ActionEvent event) throws Exception{
-		//checkLoginSQL();
-		/*if(textLogin.getText().equals("nazwisko@leggo.com") && textHaslo.getText().equals("test")) {
-			logLab.setText("Witaj " + textLogin.getText() + "!");
-			TeacherController.showTeacher(mainApp);
-		}
-		else if(textLogin.getText().equals("nazwisko@leggo.com") && textHaslo.getText().equals("test2")) {
-			logLab.setText("Witaj " + textLogin.getText() + "!");
-			StudentController.showStudent(mainApp);
-		}
-		else if(textLogin.getText().equals("nazwisko@leggo.com") && textHaslo.getText().equals("test3")) {
-			logLab.setText("Witaj " + textLogin.getText() + "!");
-			AdminController.showAdmin(mainApp);
-		}
-		
-		else {
-			logLab.setText("Has³o nieprawid³owe!");
-		}*/
-		MainWindowController.showMainWindow(mainApp);
-	}
 	
+	private LoginService loginService = new LoginService();
+
+	@FXML
+	private void loginButtonAction(ActionEvent event) throws Exception {
+		try {
+			if (loginService.signIn(textLogin.getText(), textHaslo.getText())) {
+				MainWindowController.showMainWindow(mainApp);
+			} else {
+				Main.showInformation("Logowanie", "Login lub haslo nieprawodlowe!", Alert.AlertType.WARNING);
+			}
+		} catch (WrongEmailFormatException e) {
+			Main.showInformation("Logowanie", "Login ma nieprawid³owy format!", Alert.AlertType.WARNING);
+		}
+	}
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		// TODO Auto-generated method stub
-		
 	}
-	
+
 	public void setMainApp(Main mainApp) {
 		this.mainApp = mainApp;
-		
+
 	}
 }

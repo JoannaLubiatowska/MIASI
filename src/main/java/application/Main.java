@@ -2,6 +2,10 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 
 import application.view.LoginController;
@@ -76,6 +80,21 @@ public class Main extends Application {
                 }
             }
         } while(true);
+    }
+    
+    public static Statement getStatement() throws ClassNotFoundException, SQLException {
+    	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		Connection con = DriverManager
+				.getConnection("jdbc:sqlserver://localhost;databaseName=GradingSystem;user=sa;password=praktyka;");
+		Statement s1 = con.createStatement();
+		return s1;
+    }
+    
+    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+    	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		Connection con = DriverManager
+				.getConnection("jdbc:sqlserver://localhost;databaseName=GradingSystem;user=sa;password=praktyka;");
+		return con;
     }
     
     public static void main(String[] args) {
