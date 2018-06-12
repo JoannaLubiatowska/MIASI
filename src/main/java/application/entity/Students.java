@@ -63,4 +63,9 @@ public class Students {
 	public void setUserGroup(Integer userGroup) {
 		this.userGroup = userGroup;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("%s %s (%d)", lastName, fFirstName, indexNumber);
+	}
 }

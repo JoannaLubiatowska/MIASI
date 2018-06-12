@@ -5,7 +5,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import application.Main;
+import application.entity.Exams;
+import application.entity.Students;
 import application.entity.Subjects;
+import application.service.ExamService;
+import application.service.StudentService;
 import application.service.SubjectService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -29,9 +33,9 @@ public class MainWindowController {
 	@FXML
 	private TextField maxPunctationTextBox;
 	@FXML
-	private ComboBox examComboBox;
+	private ComboBox<Exams> examComboBox;
 	@FXML
-	private ComboBox studentComboBox;
+	private ComboBox<Students> studentComboBox;
 	@FXML
 	private TextField resultPunctationTextBox;
 	@FXML
@@ -47,6 +51,8 @@ public class MainWindowController {
 	private String examID;
 
 	private SubjectService subjectService = new SubjectService();
+	private ExamService examService = new ExamService();
+	private StudentService studentService = new StudentService();
 
 
 	@FXML
@@ -93,9 +99,18 @@ public class MainWindowController {
 		}
 	}
 
-	private String getDegreeByResult(int parseInt) {
-
-		return null;
+	private int getDegreeByResult(int resultPunctation) {
+		int degree;
+		if (resultPunctation < 0.5*maxPunctation) {
+			degree = 2;
+		} else if (resultPunctation >= 0.5*maxPunctation && resultPunctation < 0.6*maxPunctation) {
+			degree = 3;
+		} else if (resultPunctation >= 0.6*maxPunctation && resultPunctation < 0.8*maxPunctation) {
+			degree = 4;
+		}else if (resultPunctation >= 0.8*maxPunctation && resultPunctation <= maxPunctation) {
+			degree = 5;
+		}
+		return degree;
 	}
 
 	public static void showMainWindow(Main mainApp) {
@@ -118,6 +133,8 @@ public class MainWindowController {
 		this.setMainApp(mainApp);
 		try {
 			this.SubjectComboBox.setItems(FXCollections.observableArrayList(subjectService.getAllSubjects()));
+			this.examComboBox.setItems(FXCollections.observableArrayList(examService.getAllExams()));
+			this.studentComboBox.setItems(FXCollections.observableArrayList(studentService.getAllStudents()));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

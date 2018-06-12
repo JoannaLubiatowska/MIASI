@@ -38,4 +38,9 @@ public class Exams {
 	public void setMaxPunctation(Integer maxPunctation) {
 		this.maxPunctation = maxPunctation;
 	}
+	
+	@Override
+	public String toString() {
+		return this.examName;
+	}
 }
