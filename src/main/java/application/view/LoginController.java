@@ -33,7 +33,7 @@ public class LoginController implements Initializable {
 	@SuppressWarnings("unused")
 	private Main mainApp;
 	
-	private LoginService loginService = new LoginService();
+	private LoginService loginService = LoginService.instance();
 
 	@FXML
 	private void loginButtonAction(ActionEvent event) throws Exception {

@@ -2,13 +2,15 @@ package application.view;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import application.Main;
 import application.entity.Exams;
+import application.entity.StudentDegrees;
 import application.entity.Students;
 import application.entity.Subjects;
 import application.service.ExamService;
+import application.service.LoginService;
+import application.service.StudentDegreeService;
 import application.service.StudentService;
 import application.service.SubjectService;
 import javafx.collections.FXCollections;
@@ -45,14 +47,10 @@ public class MainWindowController {
 	@FXML
 	private TextField degreeTextBox;
 
-	private Main mainApp;
-	private String profesorID;
-	private String studentID;
-	private String examID;
-
 	private SubjectService subjectService = new SubjectService();
 	private ExamService examService = new ExamService();
 	private StudentService studentService = new StudentService();
+	private StudentDegreeService studentDegreeService = new StudentDegreeService();
 
 
 	@FXML
@@ -63,54 +61,36 @@ public class MainWindowController {
 
 	@FXML
 	public void addExamButtonAction(ActionEvent event) {
-		Statement s1;
-		try {
-			s1 = Main.getStatement();
-			if (Main.showQuestionDialog("Potwierdzenie", "Czy napewno chcesz dodaæ egzamin?", "")) {
-				String sqlInsert = "INSERT INTO Exams(ExamName, SubjectID, MaxPunctation) VALUES('"
-						+ titleTextBox.getText() + "', '" + SubjectComboBox.getValue().getSubjectID() + "', "
-						+ Integer.parseInt(maxPunctationTextBox.getText()) + ")";
-
-				s1.executeUpdate(sqlInsert);
-				Main.showInformation("Dodawanie egzaminu", "Egzamin zosta³ dodany.", AlertType.INFORMATION);
+		Exams exam = new Exams(null, titleTextBox.getText(), SubjectComboBox.getValue().getSubjectID(), Integer.parseInt(maxPunctationTextBox.getText()));
+		
+		if (Main.showQuestionDialog("Potwierdzenie", "Czy napewno chcesz dodaæ egzamin?", "")) {
+			try {
+				if (examService.saveNewExam(exam)) {
+					Main.showInformation("Dodawanie egzaminu", "Egzamin zosta³ dodany.", AlertType.INFORMATION);
+				} else {
+					Main.showInformation("Dodawanie egzaminu", "Dodawanie egzaminu nie powiod³o siê.", AlertType.ERROR);
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				Main.showInformation("Dodawanie egzaminu", "Dodawanie egzaminu nie powiod³o siê.", AlertType.ERROR);
+				e.printStackTrace();
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			Main.showInformation("Dodawanie egzaminu", "Dodawanie egzaminu nie powiod³o siê.", AlertType.ERROR);
-			e.printStackTrace();
 		}
 	}
 
 	@FXML
 	public void saveButtonAction(ActionEvent event) {
-		Statement s1;
-		try {
-			s1 = Main.getStatement();
-			if (Main.showQuestionDialog("Zapisywanie", "Czy napewno chcesz zapisaæ zmiany i wyliczyæ ocenê?", "")) {
-				String sqlInsert = "INSERT INTO StudentDegrees(ExamID, ProfesorID, StudentID, Degree, ResultPunctation) VALUES("
-						+ examID + ", " + Integer.parseInt(profesorID) + ", " + studentID + ", "
-						+ getDegreeByResult(Integer.parseInt(resultPunctationTextBox.getText())) + ", "
-						+ Integer.parseInt(resultPunctationTextBox.getText()) + ");";
-				s1.executeUpdate(sqlInsert);
-				Main.showInformation("Zapisywanie", "Zapisano ocenê.", AlertType.INFORMATION);
+		StudentDegrees degree = new StudentDegrees(null, examComboBox.getValue().getExamID(), LoginService.instance().getCurrentUser().getProfesorID(), studentComboBox.getValue().getStudentID(), Integer.valueOf(resultPunctationTextBox.getText()), null);
+		
+		if (Main.showQuestionDialog("Zapisywanie", "Czy napewno chcesz zapisaæ zmiany i wyliczyæ ocenê?", "")) {
+			try {
+				if (studentDegreeService.saveNewDegree(degree)) {
+					Main.showInformation("Zapisywanie", "Zapisano ocenê.", AlertType.INFORMATION);
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				Main.showInformation("Zapisywanie", "Zapisywanie zmian nie powiod³o siê.", AlertType.ERROR);
+				e.printStackTrace();
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			Main.showInformation("Zapisywanie", "Zapisywanie zmian nie powiod³o siê.", AlertType.ERROR);
-			e.printStackTrace();
 		}
-	}
-
-	private int getDegreeByResult(int resultPunctation) {
-		int degree;
-		if (resultPunctation < 0.5*maxPunctation) {
-			degree = 2;
-		} else if (resultPunctation >= 0.5*maxPunctation && resultPunctation < 0.6*maxPunctation) {
-			degree = 3;
-		} else if (resultPunctation >= 0.6*maxPunctation && resultPunctation < 0.8*maxPunctation) {
-			degree = 4;
-		}else if (resultPunctation >= 0.8*maxPunctation && resultPunctation <= maxPunctation) {
-			degree = 5;
-		}
-		return degree;
 	}
 
 	public static void showMainWindow(Main mainApp) {
@@ -141,6 +121,5 @@ public class MainWindowController {
 	}
 
 	private void setMainApp(Main mainApp) {
-		this.mainApp = mainApp;
 	}
 }
