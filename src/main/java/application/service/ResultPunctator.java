@@ -8,7 +8,6 @@ import org.activiti.engine.delegate.JavaDelegate;
 public class ResultPunctator implements JavaDelegate {
 
 	private Integer getDegree(Integer maxScore, Integer resultPunctation) {
-		// TODO Auto-generated method stub
 		double percent = (double) resultPunctation / maxScore;
 		
 		return Arrays.stream(Degree.values()).filter(degree -> degree.isInInterval(percent)).findFirst()

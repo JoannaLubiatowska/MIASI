@@ -8,9 +8,6 @@ import application.entity.StudentDegrees;
 
 public class StudentDegreeService {
 	
-	private ResultPunctator resultPunctator = new ResultPunctator();
-	private ExamService examService = new ExamService();
-
 	public boolean saveNewDegree(StudentDegrees degree) throws ClassNotFoundException, SQLException {
 		String insert = String.format("INSERT INTO StudentDegrees(ExamID, ProfesorID, StudentID, Degree, ResultPunctation) VALUES(%d, %d, %d, %d, %d)",
 				degree.getExamID(), degree.getProfesorID(), degree.getStudentID(), /*resultPunctator.getDegree(examService.getExamById(degree.getExamID()), degree.getResultPunctation())*/5, degree.getResultPunctation());

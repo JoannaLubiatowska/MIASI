@@ -1,7 +1,13 @@
 package application.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.activiti.engine.delegate.DelegateExecution;
+import org.activiti.engine.delegate.JavaDelegate;
 
 import application.Main;
 import application.entity.Exams;
@@ -25,32 +31,37 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class MainWindowController {
-	@FXML
-	private Button logoutButton;
-	@FXML
-	private TextField titleTextBox;
-	@FXML
-	private ComboBox<Subjects> SubjectComboBox;
-	@FXML
-	private TextField maxPunctationTextBox;
-	@FXML
-	private ComboBox<Exams> examComboBox;
-	@FXML
-	private ComboBox<Students> studentComboBox;
-	@FXML
-	private TextField resultPunctationTextBox;
-	@FXML
-	private Button addExamButton;
-	@FXML
-	private Button saveButton;
-	@FXML
-	private TextField degreeTextBox;
+public class MainWindowController implements Serializable {
 
-	private SubjectService subjectService = new SubjectService();
-	private ExamService examService = new ExamService();
-	private StudentService studentService = new StudentService();
-	private StudentDegreeService studentDegreeService = new StudentDegreeService();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -575996413308360419L;
+	@FXML
+	private transient Button logoutButton;
+	@FXML
+	private transient TextField titleTextBox;
+	@FXML
+	private transient ComboBox<Subjects> SubjectComboBox;
+	@FXML
+	private transient TextField maxPunctationTextBox;
+	@FXML
+	private transient ComboBox<Exams> examComboBox;
+	@FXML
+	private transient ComboBox<Students> studentComboBox;
+	@FXML
+	private transient TextField resultPunctationTextBox;
+	@FXML
+	private transient Button addExamButton;
+	@FXML
+	private transient Button saveButton;
+	@FXML
+	private transient TextField degreeTextBox;
+
+	private transient SubjectService subjectService = new SubjectService();
+	private transient ExamService examService = new ExamService();
+	private transient StudentService studentService = new StudentService();
+	private transient StudentDegreeService studentDegreeService = new StudentDegreeService();
 
 
 	@FXML
@@ -83,6 +94,11 @@ public class MainWindowController {
 		
 		if (Main.showQuestionDialog("Zapisywanie", "Czy napewno chcesz zapisaæ zmiany i wyliczyæ ocenê?", "")) {
 			try {
+				Map<String, Object> variableMap = new HashMap<String, Object>();
+				variableMap.put("score", degree.getResultPunctation());
+				variableMap.put("maxScore", examService.getExamById(degree.getExamID()).getMaxPunctation());
+				variableMap.put("showDegreeCommand", new ShowDegreeDelegate());
+				Main.processEngine.getRuntimeService().startProcessInstanceByKey("process_pool2", variableMap);
 				if (studentDegreeService.saveNewDegree(degree)) {
 					Main.showInformation("Zapisywanie", "Zapisano ocenê.", AlertType.INFORMATION);
 				}
@@ -121,5 +137,21 @@ public class MainWindowController {
 	}
 
 	private void setMainApp(Main mainApp) {
+	}
+	
+
+	public class ShowDegreeDelegate implements JavaDelegate, Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3775361008248553319L;
+
+		@Override
+		public void execute(DelegateExecution execution) throws Exception {
+			String degreeLabel = execution.getVariable("degreeLabel").toString();
+			degreeTextBox.setText(degreeLabel);
+		}
+
 	}
 }
