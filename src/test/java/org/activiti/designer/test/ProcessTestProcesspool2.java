@@ -16,6 +16,8 @@ import org.activiti.engine.test.ActivitiRule;
 import org.junit.Rule;
 import org.junit.Test;
 
+import application.entity.StudentDegrees;
+
 public class ProcessTestProcesspool2 {
 
 	
@@ -32,9 +34,9 @@ public class ProcessTestProcesspool2 {
 				new FileInputStream(filename)).deploy();
 		RuntimeService runtimeService = activitiRule.getRuntimeService();
 		Map<String, Object> variableMap = new HashMap<String, Object>();
-		variableMap.put("score", 5);
-		variableMap.put("maxScore", 12);
 		variableMap.put("showDegreeCommand", new DoNothing());
+		variableMap.put("studentDegree", new StudentDegrees(null, 1, null, null, 5, null));
+		variableMap.put("saveStudentDegreeCommand", new DoNothing());
 		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("process_pool2", variableMap);
 		assertNotNull(processInstance.getId());
 		System.out.println("id " + processInstance.getId() + " "

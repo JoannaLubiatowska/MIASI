@@ -1,7 +1,13 @@
 package application.entity;
 
-public class Students {
+import java.io.Serializable;
 
+public class Students implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7608591208770885100L;
 	private Integer studentID;
 	private String fFirstName;
 	private String lastName;

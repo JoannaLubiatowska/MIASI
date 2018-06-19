@@ -1,7 +1,13 @@
 package application.entity;
 
-public class Subjects {
+import java.io.Serializable;
 
+public class Subjects implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6685735191025984325L;
 	private Integer subjectID;
 	private String subjectName;
 		

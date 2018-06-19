@@ -5,8 +5,12 @@ import java.util.Arrays;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 
+import application.entity.StudentDegrees;
+
 public class ResultPunctator implements JavaDelegate {
 
+	private ExamService examService = new ExamService();
+	
 	private Integer getDegree(Integer maxScore, Integer resultPunctation) {
 		double percent = (double) resultPunctation / maxScore;
 		
@@ -16,8 +20,9 @@ public class ResultPunctator implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		Integer score = (Integer) execution.getVariable("score");
-		Integer maxScore = (Integer) execution.getVariable("maxScore");
+		StudentDegrees studentDegrees = (StudentDegrees) execution.getVariable("studentDegree");
+		Integer score = studentDegrees.getResultPunctation();
+		Integer maxScore = examService.getExamById(studentDegrees.getExamID()).getMaxPunctation();
 		execution.setVariable("degree", getDegree(maxScore, score));
 	}
 

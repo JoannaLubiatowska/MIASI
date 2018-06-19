@@ -1,9 +1,14 @@
 package application.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class StudentDegrees {
+public class StudentDegrees implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 590927978924255181L;
 	private Integer studentDegreesID;
 	private Integer examID;
 	private Integer profesorID;

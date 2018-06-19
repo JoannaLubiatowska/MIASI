@@ -1,6 +1,12 @@
 package application.entity;
 
-public class UserGroups {
+import java.io.Serializable;
+
+public class UserGroups implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2156387742720389706L;
 	private Integer userGroupID;
 	private String groupName;
 	

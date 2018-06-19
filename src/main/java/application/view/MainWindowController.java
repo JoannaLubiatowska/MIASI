@@ -93,19 +93,11 @@ public class MainWindowController implements Serializable {
 		StudentDegrees degree = new StudentDegrees(null, examComboBox.getValue().getExamID(), LoginService.instance().getCurrentUser().getProfesorID(), studentComboBox.getValue().getStudentID(), Integer.valueOf(resultPunctationTextBox.getText()), null);
 		
 		if (Main.showQuestionDialog("Zapisywanie", "Czy napewno chcesz zapisaæ zmiany i wyliczyæ ocenê?", "")) {
-			try {
-				Map<String, Object> variableMap = new HashMap<String, Object>();
-				variableMap.put("score", degree.getResultPunctation());
-				variableMap.put("maxScore", examService.getExamById(degree.getExamID()).getMaxPunctation());
-				variableMap.put("showDegreeCommand", new ShowDegreeDelegate());
-				Main.processEngine.getRuntimeService().startProcessInstanceByKey("process_pool2", variableMap);
-				if (studentDegreeService.saveNewDegree(degree)) {
-					Main.showInformation("Zapisywanie", "Zapisano ocenê.", AlertType.INFORMATION);
-				}
-			} catch (ClassNotFoundException | SQLException e) {
-				Main.showInformation("Zapisywanie", "Zapisywanie zmian nie powiod³o siê.", AlertType.ERROR);
-				e.printStackTrace();
-			}
+			Map<String, Object> variableMap = new HashMap<String, Object>();
+			variableMap.put("studentDegree", degree);
+			variableMap.put("showDegreeCommand", new ShowDegreeDelegate());
+			variableMap.put("saveStudentDegreeCommand", studentDegreeService.saveStudentDegreeDelegate);
+			Main.processEngine.getRuntimeService().startProcessInstanceByKey("process_pool2", variableMap);
 		}
 	}
 
