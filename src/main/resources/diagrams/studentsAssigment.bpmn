@@ -7,34 +7,36 @@
     <laneSet id="laneSet_process_pool2">
       <lane id="lane2">
         <flowNodeRef>startevent1</flowNodeRef>
-        <flowNodeRef>InputAssigmentID</flowNodeRef>
-        <flowNodeRef>CountPointsID</flowNodeRef>
-        <flowNodeRef>MoreThan60PID</flowNodeRef>
-        <flowNodeRef>CalculateAssigmentID</flowNodeRef>
-        <flowNodeRef>FailedExamID</flowNodeRef>
-        <flowNodeRef>endevent1</flowNodeRef>
-        <flowNodeRef>PassedExamID</flowNodeRef>
         <flowNodeRef>endevent2</flowNodeRef>
         <flowNodeRef>usertask1</flowNodeRef>
+        <flowNodeRef>isGreatScore</flowNodeRef>
+        <flowNodeRef>calculateADegree</flowNodeRef>
+        <flowNodeRef>passedExam</flowNodeRef>
+        <flowNodeRef>failedExam</flowNodeRef>
+        <flowNodeRef>inclusivegateway1</flowNodeRef>
+        <flowNodeRef>showDegree</flowNodeRef>
       </lane>
     </laneSet>
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="InputAssigmentID" name="InputAssigment"></userTask>
-    <serviceTask id="CountPointsID" name="CountPoints"></serviceTask>
-    <exclusiveGateway id="MoreThan60PID" name="MoreThan60P"></exclusiveGateway>
-    <sequenceFlow id="flow2" sourceRef="CountPointsID" targetRef="MoreThan60PID"></sequenceFlow>
-    <sequenceFlow id="flow3" sourceRef="InputAssigmentID" targetRef="CountPointsID"></sequenceFlow>
-    <serviceTask id="CalculateAssigmentID" name="CalculateAssigment"></serviceTask>
-    <sequenceFlow id="YesID" name="Yes" sourceRef="MoreThan60PID" targetRef="CalculateAssigmentID"></sequenceFlow>
-    <serviceTask id="FailedExamID" name="FailedExam (send to student)" activiti:type="mail"></serviceTask>
-    <sequenceFlow id="NoID" name="No" sourceRef="MoreThan60PID" targetRef="FailedExamID"></sequenceFlow>
-    <endEvent id="endevent1" name="End"></endEvent>
-    <sequenceFlow id="flow6" sourceRef="FailedExamID" targetRef="endevent1"></sequenceFlow>
-    <serviceTask id="PassedExamID" name="PassedExam (send to dean's office)" activiti:type="mail"></serviceTask>
-    <sequenceFlow id="flow7" sourceRef="CalculateAssigmentID" targetRef="PassedExamID"></sequenceFlow>
+    <serviceTask id="calculateADegree" name="Calculate a Degree" activiti:class="application.service.ResultPunctator" activiti:resultVariableName="degree"></serviceTask>
+    <exclusiveGateway id="isGreatScore" name="Is great score"></exclusiveGateway>
+    <serviceTask id="failedExam" name="FailedExam (send to student)" activiti:type="mail"></serviceTask>
+    <sequenceFlow id="badScore" name="No" sourceRef="isGreatScore" targetRef="failedExam">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${degree == 2}]]></conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="passedExam" name="PassedExam (send to dean's office)" activiti:type="mail"></serviceTask>
     <endEvent id="endevent2" name="End"></endEvent>
-    <sequenceFlow id="flow8" sourceRef="PassedExamID" targetRef="endevent2"></sequenceFlow>
-    <sequenceFlow id="flow9" sourceRef="startevent1" targetRef="InputAssigmentID"></sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="passedExam" targetRef="inclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="startevent1" targetRef="calculateADegree"></sequenceFlow>
+    <sequenceFlow id="flow10" sourceRef="calculateADegree" targetRef="isGreatScore"></sequenceFlow>
+    <sequenceFlow id="greatScore" name="Yes" sourceRef="isGreatScore" targetRef="passedExam">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${degree > 2}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow12" sourceRef="failedExam" targetRef="inclusivegateway1"></sequenceFlow>
+    <inclusiveGateway id="inclusivegateway1" name="Inclusive Gateway"></inclusiveGateway>
+    <serviceTask id="showDegree" name="Show degree in label" activiti:delegateExpression="${showDegreeCommand}"></serviceTask>
+    <sequenceFlow id="flow13" sourceRef="showDegree" targetRef="endevent2"></sequenceFlow>
+    <sequenceFlow id="flow14" sourceRef="inclusivegateway1" targetRef="showDegree"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_Collaboration">
     <bpmndi:BPMNPlane bpmnElement="Collaboration" id="BPMNPlane_Collaboration">
@@ -45,69 +47,70 @@
         <omgdc:Bounds height="211.0" width="951.0" x="70.0" y="140.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="90.0" y="170.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="90.0" y="221.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="InputAssigmentID" id="BPMNShape_InputAssigmentID">
-        <omgdc:Bounds height="55.0" width="105.0" x="170.0" y="160.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="calculateADegree" id="BPMNShape_calculateADegree">
+        <omgdc:Bounds height="55.0" width="105.0" x="230.0" y="211.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="CountPointsID" id="BPMNShape_CountPointsID">
-        <omgdc:Bounds height="55.0" width="105.0" x="330.0" y="160.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="isGreatScore" id="BPMNShape_isGreatScore">
+        <omgdc:Bounds height="40.0" width="40.0" x="430.0" y="218.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="MoreThan60PID" id="BPMNShape_MoreThan60PID">
-        <omgdc:Bounds height="40.0" width="40.0" x="480.0" y="167.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="failedExam" id="BPMNShape_failedExam">
+        <omgdc:Bounds height="71.0" width="105.0" x="560.0" y="258.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="CalculateAssigmentID" id="BPMNShape_CalculateAssigmentID">
-        <omgdc:Bounds height="55.0" width="105.0" x="710.0" y="160.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="FailedExamID" id="BPMNShape_FailedExamID">
-        <omgdc:Bounds height="71.0" width="121.0" x="440.0" y="260.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="620.0" y="280.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="PassedExamID" id="BPMNShape_PassedExamID">
-        <omgdc:Bounds height="68.0" width="105.0" x="710.0" y="241.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="passedExam" id="BPMNShape_passedExam">
+        <omgdc:Bounds height="68.0" width="105.0" x="560.0" y="154.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
-        <omgdc:Bounds height="35.0" width="35.0" x="880.0" y="257.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="940.0" y="221.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
-        <omgdi:waypoint x="435.0" y="187.0"></omgdi:waypoint>
-        <omgdi:waypoint x="480.0" y="187.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
-        <omgdi:waypoint x="275.0" y="187.0"></omgdi:waypoint>
-        <omgdi:waypoint x="330.0" y="187.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="YesID" id="BPMNEdge_YesID">
-        <omgdi:waypoint x="520.0" y="187.0"></omgdi:waypoint>
-        <omgdi:waypoint x="710.0" y="187.0"></omgdi:waypoint>
+      <bpmndi:BPMNShape bpmnElement="inclusivegateway1" id="BPMNShape_inclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="740.0" y="218.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="showDegree" id="BPMNShape_showDegree">
+        <omgdc:Bounds height="55.0" width="111.0" x="810.0" y="211.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="badScore" id="BPMNEdge_badScore">
+        <omgdi:waypoint x="450.0" y="258.0"></omgdi:waypoint>
+        <omgdi:waypoint x="450.0" y="293.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="293.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="20.0" x="541.0" y="168.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="413.0" y="270.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="NoID" id="BPMNEdge_NoID">
-        <omgdi:waypoint x="500.0" y="207.0"></omgdi:waypoint>
-        <omgdi:waypoint x="500.0" y="260.0"></omgdi:waypoint>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="13.0" x="488.0" y="214.0"></omgdc:Bounds>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
-        <omgdi:waypoint x="561.0" y="295.0"></omgdi:waypoint>
-        <omgdi:waypoint x="620.0" y="297.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
-        <omgdi:waypoint x="762.0" y="215.0"></omgdi:waypoint>
-        <omgdi:waypoint x="762.0" y="241.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
-        <omgdi:waypoint x="815.0" y="275.0"></omgdi:waypoint>
-        <omgdi:waypoint x="880.0" y="274.0"></omgdi:waypoint>
+        <omgdi:waypoint x="665.0" y="188.0"></omgdi:waypoint>
+        <omgdi:waypoint x="760.0" y="188.0"></omgdi:waypoint>
+        <omgdi:waypoint x="760.0" y="218.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
-        <omgdi:waypoint x="125.0" y="187.0"></omgdi:waypoint>
-        <omgdi:waypoint x="170.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="125.0" y="238.0"></omgdi:waypoint>
+        <omgdi:waypoint x="230.0" y="238.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="335.0" y="238.0"></omgdi:waypoint>
+        <omgdi:waypoint x="430.0" y="238.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="greatScore" id="BPMNEdge_greatScore">
+        <omgdi:waypoint x="450.0" y="218.0"></omgdi:waypoint>
+        <omgdi:waypoint x="450.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="188.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="404.0" y="158.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="665.0" y="293.0"></omgdi:waypoint>
+        <omgdi:waypoint x="760.0" y="293.0"></omgdi:waypoint>
+        <omgdi:waypoint x="760.0" y="258.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="921.0" y="238.0"></omgdi:waypoint>
+        <omgdi:waypoint x="940.0" y="238.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="780.0" y="238.0"></omgdi:waypoint>
+        <omgdi:waypoint x="810.0" y="238.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

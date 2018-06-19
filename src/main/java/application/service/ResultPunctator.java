@@ -2,15 +2,24 @@ package application.service;
 
 import java.util.Arrays;
 
-import application.entity.Exams;
+import org.activiti.engine.delegate.DelegateExecution;
+import org.activiti.engine.delegate.JavaDelegate;
 
-public class ResultPunctator {
+public class ResultPunctator implements JavaDelegate {
 
-	public Integer getDegree(Exams exam, int resultPunctation) {
+	private Integer getDegree(Integer maxScore, Integer resultPunctation) {
 		// TODO Auto-generated method stub
-		double percent = (double) resultPunctation / exam.getMaxPunctation();
+		double percent = (double) resultPunctation / maxScore;
+		
 		return Arrays.stream(Degree.values()).filter(degree -> degree.isInInterval(percent)).findFirst()
 				.map(Degree::getDegreeValue).orElse(0);
+	}
+
+	@Override
+	public void execute(DelegateExecution execution) throws Exception {
+		Integer score = (Integer) execution.getVariable("score");
+		Integer maxScore = (Integer) execution.getVariable("maxScore");
+		execution.setVariable("degree", getDegree(maxScore, score));
 	}
 
 	private enum Degree {
@@ -30,7 +39,7 @@ public class ResultPunctator {
 			return min < percent && max >= percent;
 		}
 
-		public int getDegreeValue() {
+		public Integer getDegreeValue() {
 			return degreeValue;
 		}
 	}
