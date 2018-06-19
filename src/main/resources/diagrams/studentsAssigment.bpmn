@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <collaboration id="Collaboration">
-    <participant id="DeansOfficeID" name="DeansOffice" processRef="process_pool1"></participant>
     <participant id="ProfessorID" name="Professor" processRef="process_pool2"></participant>
-    <participant id="StudentID" name="Student" processRef="process_pool3"></participant>
   </collaboration>
-  <process id="process_pool1" name="process_pool1" isExecutable="true">
-    <laneSet id="laneSet_process_pool1">
-      <lane id="lane1"></lane>
-    </laneSet>
-  </process>
   <process id="process_pool2" name="process_pool2" isExecutable="true">
     <laneSet id="laneSet_process_pool2">
       <lane id="lane2">
@@ -43,30 +36,13 @@
     <sequenceFlow id="flow8" sourceRef="PassedExamID" targetRef="endevent2"></sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="startevent1" targetRef="InputAssigmentID"></sequenceFlow>
   </process>
-  <process id="process_pool3" name="process_pool3" isExecutable="true">
-    <laneSet id="laneSet_process_pool3">
-      <lane id="lane3"></lane>
-    </laneSet>
-  </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_Collaboration">
     <bpmndi:BPMNPlane bpmnElement="Collaboration" id="BPMNPlane_Collaboration">
-      <bpmndi:BPMNShape bpmnElement="DeansOfficeID" id="BPMNShape_DeansOfficeID">
-        <omgdc:Bounds height="71.0" width="961.0" x="50.0" y="40.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="lane1" id="BPMNShape_lane1">
-        <omgdc:Bounds height="71.0" width="941.0" x="70.0" y="40.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="ProfessorID" id="BPMNShape_ProfessorID">
         <omgdc:Bounds height="211.0" width="971.0" x="50.0" y="140.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="lane2" id="BPMNShape_lane2">
         <omgdc:Bounds height="211.0" width="951.0" x="70.0" y="140.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="StudentID" id="BPMNShape_StudentID">
-        <omgdc:Bounds height="101.0" width="971.0" x="50.0" y="370.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="lane3" id="BPMNShape_lane3">
-        <omgdc:Bounds height="101.0" width="951.0" x="70.0" y="370.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="90.0" y="170.0"></omgdc:Bounds>
