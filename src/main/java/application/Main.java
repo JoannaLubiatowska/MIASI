@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
 
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.test.ActivitiRule;
+
 import application.view.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -23,14 +26,11 @@ public class Main extends Application {
 
 	private Stage stage;
 	
+	private static ActivitiRule activitiRule = new ActivitiRule();
+	
     @Override
     public void start(Stage stage) throws Exception{
     	this.stage = stage;
-//    	
-//		URL url = Main.class.getResource("view/LoginScene.fxml");
-//		FXMLLoader loader = new FXMLLoader(url);
-//    	Scene scene = new Scene(loader.load());
-//    	stage.setScene(scene);
     	
     	loadStage();
 		stage.show();
@@ -97,8 +97,14 @@ public class Main extends Application {
     }
     
     public static void main(String[] args) {
+    	prepareProceses();
         launch(args);
     }
+
+	private static void prepareProceses() {
+		RepositoryService repositoryService = activitiRule.getRepositoryService();
+	    repositoryService.createDeployment().addClasspathResource("diagrams/studentAssigment.bpmn").deploy();
+	}
 
 	public Stage getStage() {
 		return stage;
