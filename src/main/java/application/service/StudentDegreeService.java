@@ -19,8 +19,8 @@ public class StudentDegreeService implements Serializable {
 	public final SaveStudentDegreeDelegate saveStudentDegreeDelegate = new SaveStudentDegreeDelegate();
 	
 	public boolean saveNewDegree(StudentDegrees degree) throws ClassNotFoundException, SQLException {
-		String insert = String.format("INSERT INTO StudentDegrees(ExamID, ProfesorID, StudentID, Degree, ResultPunctation) VALUES(%d, %d, %d, %d, %d)",
-				degree.getExamID(), degree.getProfesorID(), degree.getStudentID(), /*resultPunctator.getDegree(examService.getExamById(degree.getExamID()), degree.getResultPunctation())*/5, degree.getResultPunctation());
+		String insert = String.format("INSERT INTO StudentDegrees(ExamID, ProfesorID, StudentID, Degree, ResultPunctation) VALUES(%d, %d, %d, %s, %d)",
+				degree.getExamID(), degree.getProfesorID(), degree.getStudentID(), degree.getDegree().toString().replaceAll(",", "."), degree.getResultPunctation());
 		int result = 0;
 
 		try (Statement statement = Main.getStatement()) {

@@ -14,7 +14,7 @@ public class StudentDegrees implements Serializable {
 	private Integer profesorID;
 	private Integer studentID;
 	private int resultPunctation;
-	//private float degree;
+	private Float degree;
 	private Date dateOfDegree;
 	
 	public StudentDegrees(Integer studentDegreesID, Integer examID, Integer profesorID, Integer studentID,
@@ -25,15 +25,14 @@ public class StudentDegrees implements Serializable {
 		this.profesorID = profesorID;
 		this.studentID = studentID;
 		this.resultPunctation = resultPunctation;
-		//this.degree = degree;
 		this.dateOfDegree = dateOfDegree;
 	}
-//	public float getDegree() {
-//		return degree;
-//	}
-//	public void setDegree(float degree) {
-//		this.degree = degree;
-//	}
+	public Float getDegree() {
+		return degree;
+	}
+	public void setDegree(Float degree) {
+		this.degree = degree;
+	}
 	public Integer getStudentDegreesID() {
 		return studentDegreesID;
 	}

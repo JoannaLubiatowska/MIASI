@@ -21,14 +21,14 @@
     <serviceTask id="calculateADegree" name="Calculate a Degree" activiti:class="application.service.ResultPunctator"></serviceTask>
     <exclusiveGateway id="isGreatScore" name="Is great score"></exclusiveGateway>
     <sequenceFlow id="badScore" name="No" sourceRef="isGreatScore" targetRef="scripttask2">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${degree == 2}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${studentDegree.getDegree() == 2}]]></conditionExpression>
     </sequenceFlow>
     <endEvent id="endevent2" name="End"></endEvent>
     <sequenceFlow id="flow8" sourceRef="scripttask1" targetRef="inclusivegateway1"></sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="startevent1" targetRef="calculateADegree"></sequenceFlow>
     <sequenceFlow id="flow10" sourceRef="saveStudentDegreeIntoDB" targetRef="isGreatScore"></sequenceFlow>
     <sequenceFlow id="greatScore" name="Yes" sourceRef="isGreatScore" targetRef="scripttask1">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${degree > 2}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${studentDegree.getDegree() > 2}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow12" sourceRef="scripttask2" targetRef="inclusivegateway1"></sequenceFlow>
     <inclusiveGateway id="inclusivegateway1" name="Inclusive Gateway"></inclusiveGateway>
@@ -36,12 +36,12 @@
     <sequenceFlow id="flow13" sourceRef="showDegree" targetRef="endevent2"></sequenceFlow>
     <sequenceFlow id="flow14" sourceRef="inclusivegateway1" targetRef="showDegree"></sequenceFlow>
     <scriptTask id="scripttask1" name="PassedExam (send to dean's office)" scriptFormat="groovy" activiti:autoStoreVariables="false">
-      <script>def degree = execution.getVariable("degree");
-execution.setVariable("degreeLabel", "${degree} (PASSED)");</script>
+      <script>def degree = execution.getVariable("studentDegree");
+execution.setVariable("degreeLabel", "${degree.getDegree()} (PASSED)");</script>
     </scriptTask>
     <scriptTask id="scripttask2" name="FailedExam (send to student)" scriptFormat="groovy" activiti:autoStoreVariables="false">
-      <script>def degree = execution.getVariable("degree");
-execution.setVariable("degreeLabel", "${degree} (FAILED)");</script>
+      <script>def degree = execution.getVariable("studentDegree");
+execution.setVariable("degreeLabel", "${degree.getDegree()} (FAILED)");</script>
     </scriptTask>
     <serviceTask id="saveStudentDegreeIntoDB" name="Save student degree into DB" activiti:delegateExpression="${saveStudentDegreeCommand}"></serviceTask>
     <sequenceFlow id="flow15" sourceRef="calculateADegree" targetRef="saveStudentDegreeIntoDB"></sequenceFlow>
@@ -86,7 +86,7 @@ execution.setVariable("degreeLabel", "${degree} (FAILED)");</script>
         <omgdi:waypoint x="630.0" y="293.0"></omgdi:waypoint>
         <omgdi:waypoint x="740.0" y="293.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="13.0" x="593.0" y="270.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="593.0" y="270.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
@@ -107,7 +107,7 @@ execution.setVariable("degreeLabel", "${degree} (FAILED)");</script>
         <omgdi:waypoint x="630.0" y="187.0"></omgdi:waypoint>
         <omgdi:waypoint x="740.0" y="188.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="20.0" x="584.0" y="158.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="584.0" y="158.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">

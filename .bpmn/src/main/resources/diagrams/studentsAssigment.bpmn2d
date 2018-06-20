@@ -264,7 +264,7 @@
     <properties key="independentObject" value="448718860"/>
     <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineWidth="1" filled="false" transparency="0.0"/>
     <connectionDecorators visible="true" active="true" location="0.5">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="13" height="14" x="33" y="152" style="//@styles.2" font="//@fonts.0" verticalAlignment="ALIGNMENT_TOP" value="No"/>
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="14" x="33" y="152" style="//@styles.2" font="//@fonts.0" verticalAlignment="ALIGNMENT_TOP" value="No"/>
     </connectionDecorators>
     <connectionDecorators visible="true" locationRelative="true" location="1.0">
       <graphicsAlgorithm xsi:type="al:Polygon" lineWidth="1" filled="true" transparency="0.0" style="//@styles.3">
@@ -326,7 +326,7 @@
     <properties key="independentObject" value="919552757"/>
     <graphicsAlgorithm xsi:type="al:Polyline" foreground="//@colors.2" lineWidth="1" filled="false" transparency="0.0"/>
     <connectionDecorators visible="true" active="true" location="0.5">
-      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="20" height="14" x="24" y="80" style="//@styles.2" font="//@fonts.0" verticalAlignment="ALIGNMENT_TOP" value="Yes"/>
+      <graphicsAlgorithm xsi:type="al:MultiText" lineWidth="1" filled="false" transparency="0.0" width="100" height="14" x="24" y="80" style="//@styles.2" font="//@fonts.0" verticalAlignment="ALIGNMENT_TOP" value="Yes"/>
     </connectionDecorators>
     <connectionDecorators visible="true" locationRelative="true" location="1.0">
       <graphicsAlgorithm xsi:type="al:Polygon" lineWidth="1" filled="true" transparency="0.0" style="//@styles.3">
